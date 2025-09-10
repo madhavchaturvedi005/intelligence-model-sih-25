@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, ChangeEvent } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,8 +6,10 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Bell, Search, FileText, Brain, Users, Zap, MessageCircle, TrendingUp, LogOut, User, Settings } from "lucide-react";
+import { Bell, Search, FileText, Brain, Users, Zap, MessageCircle, TrendingUp, LogOut, User, Settings, Upload, X, File, Loader2 } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 import { DocumentCard } from "./DocumentCard";
 import { AIAssistant } from "./AIAssistant";
 import { ProjectTracker } from "./ProjectTracker";
@@ -81,6 +83,169 @@ const projectUpdates = [
   }
 ];
 
+const DocumentUpload = () => {
+  const [isDragging, setIsDragging] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const files = Array.from(e.dataTransfer.files);
+    handleFiles(files);
+  };
+
+  const handleFileInput = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const files = Array.from(e.target.files);
+      handleFiles(files);
+    }
+  };
+
+  const handleFiles = (files: File[]) => {
+    const validFiles = files.filter(file => 
+      file.type === 'application/pdf' || 
+      file.type === 'application/msword' || 
+      file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      file.type === 'application/vnd.ms-excel' ||
+      file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+      file.type === 'text/plain' ||
+      file.type === 'text/csv'
+    );
+
+    if (validFiles.length !== files.length) {
+      toast({
+        title: "Invalid file type",
+        description: "Only PDF, Word, Excel, and text files are supported.",
+        variant: "destructive",
+      });
+    }
+
+    setSelectedFiles(prev => [...prev, ...validFiles]);
+  };
+
+  const removeFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleUpload = async () => {
+    if (selectedFiles.length === 0) return;
+    
+    setIsUploading(true);
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      toast({
+        title: "Upload successful",
+        description: `${selectedFiles.length} file(s) have been uploaded successfully.`,
+      });
+      
+      setSelectedFiles([]);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    } catch (error) {
+      toast({
+        title: "Upload failed",
+        description: "There was an error uploading your files. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  return (
+    <Card className="mb-6 overflow-hidden">
+      <div 
+        className={`p-6 border-2 border-dashed rounded-lg transition-colors ${
+          isDragging ? 'border-primary bg-primary/5' : 'border-muted-foreground/25 hover:border-primary/50'
+        }`}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        onClick={() => fileInputRef.current?.click()}
+      >
+        <div className="text-center">
+          <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+            <Upload className="h-6 w-6 text-primary" />
+          </div>
+          <h3 className="text-lg font-medium mb-1">Upload Documents</h3>
+          <p className="text-sm text-muted-foreground mb-4">
+            Drag and drop files here, or click to browse
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Supported formats: PDF, DOC, DOCX, XLS, XLSX, TXT, CSV (Max 10MB)
+          </p>
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            onChange={handleFileInput}
+            className="hidden"
+            accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.csv"
+          />
+        </div>
+      </div>
+
+      {selectedFiles.length > 0 && (
+        <div className="border-t p-4">
+          <div className="space-y-2 mb-4 max-h-40 overflow-y-auto">
+            {selectedFiles.map((file, index) => (
+              <div key={index} className="flex items-center justify-between p-2 bg-muted/50 rounded-md">
+                <div className="flex items-center space-x-2">
+                  <File className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm truncate max-w-xs">{file.name}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {(file.size / 1024 / 1024).toFixed(2)} MB
+                  </span>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFile(index);
+                  }}
+                >
+                  <X className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            ))}
+          </div>
+          <Button 
+            className="w-full" 
+            onClick={handleUpload}
+            disabled={isUploading}
+          >
+            {isUploading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Uploading...
+              </>
+            ) : (
+              `Upload ${selectedFiles.length} file${selectedFiles.length !== 1 ? 's' : ''}`
+            )}
+          </Button>
+        </div>
+      )}
+    </Card>
+  );
+};
+
 export const Dashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -97,6 +262,146 @@ export const Dashboard = () => {
       .map(n => n[0])
       .join('')
       .toUpperCase();
+  };
+
+  // Upload Dialog Component
+  const UploadDialog = () => {
+    const [isDragging, setIsDragging] = useState(false);
+    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+
+    const handleDragOver = (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragging(true);
+    };
+
+    const handleDragLeave = () => {
+      setIsDragging(false);
+    };
+
+    const handleDrop = (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragging(false);
+      const files = Array.from(e.dataTransfer.files);
+      handleFiles(files);
+    };
+
+    const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        const files = Array.from(e.target.files);
+        handleFiles(files);
+      }
+    };
+
+    const handleFiles = (files: File[]) => {
+      const validFiles = files.filter(file => 
+        file.type === 'application/pdf' || 
+        file.type === 'application/msword' || 
+        file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+        file.type === 'application/vnd.ms-excel' ||
+        file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+        file.type === 'text/plain' ||
+        file.type === 'text/csv'
+      );
+
+      if (validFiles.length !== files.length) {
+        toast({
+          title: "Invalid file type",
+          description: "Only PDF, Word, Excel, and text files are supported.",
+          variant: "destructive",
+        });
+      }
+
+      setSelectedFiles(prev => [...prev, ...validFiles]);
+    };
+
+    const removeFile = (index: number) => {
+      setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const handleUpload = () => {
+      // Handle upload logic here
+      toast({
+        title: "Upload successful",
+        description: `${selectedFiles.length} file(s) have been uploaded.`,
+      });
+      setSelectedFiles([]);
+    };
+
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button size="sm" className="ml-4">
+            <Upload className="h-4 w-4 mr-2" />
+            Upload
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>Upload Documents</DialogTitle>
+          </DialogHeader>
+          <div 
+            className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+              isDragging ? 'border-primary bg-primary/5' : 'border-muted-foreground/25 hover:border-primary/50'
+            }`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            onClick={() => document.getElementById('file-upload-dialog')?.click()}
+          >
+            <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+              <Upload className="h-8 w-8 text-primary" />
+            </div>
+            <h3 className="text-lg font-medium mb-2">Drop files here</h3>
+            <p className="text-muted-foreground text-sm mb-4">
+              Or click to select files from your computer
+            </p>
+            <p className="text-xs text-muted-foreground mb-4">
+              Supported formats: PDF, DOC, DOCX, XLS, XLSX, TXT, CSV (Max 10MB)
+            </p>
+            <input
+              id="file-upload-dialog"
+              type="file"
+              multiple
+              className="hidden"
+              onChange={handleFileInput}
+            />
+          </div>
+
+          {selectedFiles.length > 0 && (
+            <div className="mt-4 space-y-2">
+              <h4 className="font-medium">Selected files ({selectedFiles.length})</h4>
+              <div className="max-h-40 overflow-y-auto space-y-2">
+                {selectedFiles.map((file, index) => (
+                  <div key={index} className="flex items-center justify-between p-2 bg-muted/50 rounded-md text-sm">
+                    <div className="flex items-center gap-2 truncate">
+                      <File className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
+                      <span className="truncate">{file.name}</span>
+                      <span className="text-xs text-muted-foreground whitespace-nowrap">
+                        ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                      </span>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeFile(index);
+                      }}
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+              <Button className="w-full mt-4" onClick={handleUpload}>
+                Upload {selectedFiles.length} file{selectedFiles.length !== 1 ? 's' : ''}
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+    );
   };
 
   return (
@@ -218,6 +523,97 @@ export const Dashboard = () => {
 
         {/* Main Content */}
         <main className="flex-1 p-6">
+          {activeTab === "documents" && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in">
+              {/* Main Upload Area */}
+              <div className="lg:col-span-2 space-y-6">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h2 className="text-2xl font-bold text-foreground mb-1">Documents</h2>
+                    <p className="text-muted-foreground">Manage and view your uploaded documents</p>
+                  </div>
+                  <UploadDialog />
+                </div>
+                
+                {/* Document List */}
+                <Card>
+                  <div className="p-6">
+                    {recentDocuments.length === 0 ? (
+                      <div className="text-center py-12">
+                        <FileText className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                        <h4 className="text-lg font-medium text-foreground mb-1">No documents yet</h4>
+                        <p className="text-muted-foreground mb-4">
+                          Get started by uploading your first document
+                        </p>
+                        <UploadDialog />
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        {recentDocuments.map((doc) => (
+                          <DocumentCard key={doc.id} document={doc} />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </Card>
+              </div>
+              
+              {/* AI Summary Sidebar */}
+              <div className="space-y-6">
+                <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-xl">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="bg-blue-100 dark:bg-blue-800/50 p-2 rounded-lg">
+                      <Brain className="h-5 w-5 text-blue-600 dark:text-blue-300" />
+                    </div>
+                    <h3 className="font-medium">AI Document Summary</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Upload a document to get an AI-generated summary, key points, and action items.
+                  </p>
+                  <div className="mt-4 space-y-3">
+                    <div className="flex items-center gap-2 text-sm">
+                      <div className="h-2 w-2 rounded-full bg-blue-500"></div>
+                      <span>Extract key information</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <div className="h-2 w-2 rounded-full bg-blue-500"></div>
+                      <span>Generate executive summary</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <div className="h-2 w-2 rounded-full bg-blue-500"></div>
+                      <span>Identify action items</span>
+                    </div>
+                  </div>
+                  <Button variant="outline" className="w-full mt-4">
+                    <Zap className="h-4 w-4 mr-2 text-blue-500" />
+                    Process with AI
+                  </Button>
+                </div>
+                
+                {/* Recent Activity */}
+                <Card>
+                  <div className="p-4">
+                    <h3 className="font-medium mb-4">Recent Activity</h3>
+                    <div className="space-y-4">
+                      {recentDocuments.slice(0, 3).map((doc) => (
+                        <div key={doc.id} className="flex items-start gap-3 text-sm">
+                          <div className="bg-muted p-2 rounded-lg">
+                            <FileText className="h-4 w-4 text-muted-foreground" />
+                          </div>
+                          <div>
+                            <p className="font-medium text-foreground">{doc.title}</p>
+                            <p className="text-xs text-muted-foreground">
+                              Uploaded {new Date(doc.date).toLocaleDateString()}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            </div>
+          )}
           {activeTab === "overview" && (
             <div className="space-y-6 animate-fade-in">
               <div>
@@ -279,12 +675,7 @@ export const Dashboard = () => {
 
           {activeTab === "documents" && (
             <div className="space-y-6 animate-fade-in">
-              <h2 className="text-2xl font-bold text-foreground">Document Center</h2>
-              <div className="space-y-4">
-                {recentDocuments.map((doc) => (
-                  <DocumentCard key={doc.id} document={doc} expanded />
-                ))}
-              </div>
+              {/* Documents section content removed */}
             </div>
           )}
 
