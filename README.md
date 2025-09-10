@@ -1,73 +1,131 @@
-# Welcome to your Lovable project
+# KMRL Knowledge Lens Platform
 
-## Project info
+An integrated, AI-powered knowledge management system designed for Kochi Metro Rail Limited (KMRL) that transforms documents into actionable insights through intelligent ingestion, processing, and dissemination.
 
-**URL**: https://lovable.dev/projects/518bd86c-f70d-4a7b-8e28-6642bbc055e3
+## Overview
 
-## How can I edit this code?
+The Knowledge Lens Platform serves as KMRL's central nervous system for information management, consolidating documents from multiple sources into a unified, searchable repository with AI-powered analysis and role-based access controls.
 
-There are several ways of editing your application.
+## Key Features
 
-**Use Lovable**
+### 🔄 Ingestion & Unification Layer
+- **Unified Document Lake**: Central cloud-based repository as single source of truth
+- **Automated Ingestion**: Connectors for email, SharePoint, and cloud repositories
+- **OCR Processing**: Multilingual digitization of scanned PDFs and images (including WhatsApp documents)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/518bd86c-f70d-4a7b-8e28-6642bbc055e3) and start prompting.
+### 🧠 Intelligence Engine (Core AI)
+- **Smart Classification**: Automatic tagging by document type and priority
+- **Named Entity Recognition**: Extract dates, vendors, parts, codes, and locations
+- **Intelligent Summarization**: Generate headlines, abstracts, and action items
+- **Semantic Search**: Vector embeddings enable natural language queries
 
-Changes made via Lovable will be committed automatically to this repo.
+### 📊 Dissemination & Presentation Layer
+- **Role-Based Dashboards**: Tailored views for Engineers, Finance, Executives, and other departments
+- **Proactive Alerts**: Email/SMS/app notifications for high-priority items
+- **Conversational Assistant**: AI chatbot for querying the knowledge base
 
-**Use your preferred IDE**
+### 🔍 Traceability & Feedback Layer
+- **One-Click Traceability**: Link every insight to exact source documents
+- **Feedback Loop**: User ratings continuously improve AI quality
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## User Roles & Access
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+The platform supports multiple user roles with specialized dashboards:
 
-Follow these steps:
+- **Administrator** (ADM001): Full system access and user management
+- **Station Controller** (STF001): Operations and safety-focused view
+- **Procurement Officer** (STF002): Vendor and procurement document access
+- **Rolling Stock Engineer** (STF003): Technical documentation and maintenance records
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Technology Stack
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- **Frontend**: React 18 with TypeScript
+- **UI Framework**: shadcn/ui components with Tailwind CSS
+- **Build Tool**: Vite
+- **Routing**: React Router DOM
+- **State Management**: TanStack Query for server state
+- **Authentication**: Context-based auth system
+- **Icons**: Lucide React
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Getting Started
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn package manager
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd kmrl-knowledge-lens
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Open your browser and navigate to `http://localhost:5173`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Demo Credentials
 
-**Use GitHub Codespaces**
+Use these credentials to explore different user perspectives:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+| Role | Username | Password |
+|------|----------|----------|
+| Administrator | ADM001 | admin123 |
+| Station Controller | STF001 | staff123 |
+| Procurement Officer | STF002 | staff123 |
+| Rolling Stock Engineer | STF003 | staff123 |
 
-## What technologies are used for this project?
+## Project Structure
 
-This project is built with:
+```
+src/
+├── components/          # Reusable UI components
+│   ├── ui/             # shadcn/ui components
+│   ├── Dashboard.tsx   # Main dashboard component
+│   ├── SearchInterface.tsx
+│   └── ...
+├── pages/              # Route components
+├── contexts/           # React contexts (Auth, etc.)
+├── hooks/              # Custom React hooks
+├── lib/                # Utility functions
+├── types/              # TypeScript type definitions
+└── data/               # Mock data and constants
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Available Scripts
 
-## How can I deploy this project?
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run build:dev` - Build in development mode
+- `npm run lint` - Run ESLint
+- `npm run preview` - Preview production build
 
-Simply open [Lovable](https://lovable.dev/projects/518bd86c-f70d-4a7b-8e28-6642bbc055e3) and click on Share -> Publish.
+## Benefits for KMRL
 
-## Can I connect a custom domain to my Lovable project?
+- **Faster Decision Making**: Instant, pre-digested summaries reduce information processing time
+- **Cross-Functional Awareness**: Keep Engineering, Procurement, Safety, and Finance teams synchronized
+- **Compliance Ready**: Surface high-priority regulatory documents with full audit trails
+- **Institutional Memory**: Permanent, searchable digital knowledge repository
+- **Eliminate Duplication**: Share high-quality summaries across teams to reduce rework
 
-Yes, you can!
+## Contributing
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## License
+
+This project is proprietary software developed for Kochi Metro Rail Limited (KMRL).
