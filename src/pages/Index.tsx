@@ -1,21 +1,25 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Loader2, LogIn, UserPlus, Database, Search, BarChart3, MessageCircle, Bell, TrendingUp, FileText, Users } from "lucide-react";
+import { Loader2, ArrowRight, Search, Zap, Shield, Users, Brain, FileText, Clock, Target, Play, CheckCircle } from "lucide-react";
 
 const Index = () => {
   const { user, isLoading } = useAuth();
   const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     if (!isLoading && user) {
       navigate('/dashboard');
     }
   }, [user, isLoading, navigate]);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   if (isLoading) {
     return (
@@ -33,254 +37,374 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header (same structure as dashboard) */}
-      <header className="border-b bg-card shadow-soft">
-        <div className="flex h-16 items-center justify-between px-6">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded bg-primary flex items-center justify-center">
-                <span className="text-sm font-bold text-white">KMRL</span>
-              </div>
-              <h1 className="text-xl font-bold text-foreground">Knowledge Lens</h1>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5 overflow-x-hidden">
+      {/* Header */}
+      <header className={`container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 transition-all duration-1000 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
+        <nav className="flex items-center justify-between">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-primary to-primary-hover rounded-xl flex items-center justify-center shadow-lg animate-pulse-glow">
+              <Brain className="w-4 h-4 sm:w-6 sm:h-6 text-primary-foreground animate-float" />
             </div>
-            <Badge variant="secondary" className="text-xs">Home</Badge>
+            <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+              <span className="hidden sm:inline">KMRL Knowledge Lens</span>
+              <span className="sm:hidden">KMRL</span>
+            </span>
           </div>
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => navigate('/login')}
-              className="hover:bg-primary hover:text-primary-foreground"
-            >
-              <MessageCircle className="h-4 w-4 mr-2" />
-              AI Assistant
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => navigate('/login')}>
-              <Bell className="h-4 w-4" />
-            </Button>
-            <div className="flex items-center space-x-2">
-              <Button size="sm" onClick={() => navigate('/login')} className="hidden sm:flex">
-                <LogIn className="h-4 w-4 mr-2" />
-                Login
+          <Button 
+            onClick={() => navigate('/login')}
+            size="sm"
+            className="shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 bg-gradient-to-r from-primary to-primary-hover text-xs sm:text-sm"
+          >
+            <span className="hidden sm:inline">Access Dashboard</span>
+            <span className="sm:hidden">Login</span>
+            <ArrowRight className="ml-1 sm:ml-2 w-3 h-3 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1" />
+          </Button>
+        </nav>
+      </header>
+
+      {/* Hero Section */}
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          {/* Hero Content */}
+          <div className={`space-y-6 sm:space-y-8 transition-all duration-1000 delay-300 ${isVisible ? 'animate-slide-in-left' : 'opacity-0'}`}>
+            <Badge className="mb-4 sm:mb-6 animate-scale-in shadow-lg w-fit" variant="secondary">
+              <Zap className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+              <span className="text-xs sm:text-sm">AI-Powered Document Intelligence</span>
+            </Badge>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
+              <span className="bg-gradient-to-r from-primary via-primary-hover to-primary bg-clip-text text-transparent animate-fade-in block">
+                Transform Document Chaos
+              </span>
+              <span className="bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent animate-fade-in-up block">
+                Into Clear Intelligence
+              </span>
+            </h1>
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+              KMRL Knowledge Lens eliminates information overload by automatically processing, summarizing, 
+              and delivering critical insights from thousands of documents to the right stakeholders.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <Button 
+                size="lg" 
+                onClick={() => navigate('/login')}
+                className="text-sm sm:text-lg px-6 sm:px-8 py-3 sm:py-4 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 bg-gradient-to-r from-primary to-primary-hover group w-full sm:w-auto"
+              >
+                Explore Dashboard
+                <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
               </Button>
-              <Button size="sm" variant="outline" onClick={() => navigate('/signup')} className="hidden sm:flex">
-                <UserPlus className="h-4 w-4 mr-2" />
-                Sign Up
+              <Button size="lg" variant="outline" className="text-sm sm:text-lg px-6 sm:px-8 py-3 sm:py-4 border-2 hover:bg-accent/50 transition-all duration-300 hover:scale-105 w-full sm:w-auto">
+                <Play className="mr-2 w-4 h-4 sm:w-5 sm:h-5" />
+                Watch Demo
               </Button>
-              <Avatar className="h-8 w-8 sm:hidden">
-                <AvatarFallback className="text-sm bg-primary text-white">GU</AvatarFallback>
-              </Avatar>
+            </div>
+            
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 pt-6 sm:pt-8 border-t border-border/50">
+              {[
+                { number: "1000+", label: "Documents Processed" },
+                { number: "95%", label: "Time Saved" },
+                { number: "24/7", label: "Real-time Processing" }
+              ].map((stat, index) => (
+                <div key={index} className="text-center animate-fade-in-up" style={{ animationDelay: `${0.8 + index * 0.2}s` }}>
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary">{stat.number}</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground leading-tight">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Video Demo Section */}
+          <div className={`mt-8 lg:mt-0 transition-all duration-1000 delay-500 ${isVisible ? 'animate-slide-in-right' : 'opacity-0'}`}>
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary-hover/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+              <Card className="relative overflow-hidden rounded-2xl shadow-2xl border-2 border-primary/10 hover:border-primary/20 transition-all duration-300 hover:scale-[1.02]">
+                <CardContent className="p-0">
+                  <div className="aspect-video bg-gradient-to-br from-accent/20 to-primary/5 flex items-center justify-center relative overflow-hidden">
+                    {/* Placeholder for video */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary-hover/5"></div>
+                    <div className="text-center space-y-3 sm:space-y-4 z-10 px-4">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-primary/20 rounded-full flex items-center justify-center border-2 border-primary/30 hover:bg-primary/30 transition-all duration-300 cursor-pointer group animate-pulse-glow">
+                        <Play className="w-6 h-6 sm:w-8 sm:h-8 text-primary ml-1 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <div className="space-y-2">
+                        <h3 className="text-lg sm:text-xl font-semibold">See Knowledge Lens in Action</h3>
+                        <p className="text-muted-foreground text-xs sm:text-sm max-w-xs mx-auto leading-relaxed">
+                          Watch how our AI transforms complex documents into actionable insights in seconds
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Floating elements - hidden on mobile for cleaner look */}
+                    <div className="absolute top-3 left-3 sm:top-4 sm:left-4 animate-float hidden sm:block">
+                      <div className="bg-card/80 backdrop-blur-sm rounded-lg p-1.5 sm:p-2 shadow-lg border">
+                        <FileText className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+                      </div>
+                    </div>
+                    <div className="absolute top-6 right-6 sm:top-8 sm:right-8 animate-float hidden sm:block" style={{ animationDelay: '1s' }}>
+                      <div className="bg-card/80 backdrop-blur-sm rounded-lg p-1.5 sm:p-2 shadow-lg border">
+                        <Brain className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+                      </div>
+                    </div>
+                    <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8 animate-float hidden sm:block" style={{ animationDelay: '2s' }}>
+                      <div className="bg-card/80 backdrop-blur-sm rounded-lg p-1.5 sm:p-2 shadow-lg border">
+                        <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-success" />
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
-      </header>
+      </section>
 
-      <div className="flex">
-        {/* Sidebar (buttons gated to login) */}
-        <nav className="w-64 border-r bg-card min-h-screen hidden md:block">
-          <div className="p-4 space-y-2">
-            <Button variant="default" className="w-full justify-start">
-              <TrendingUp className="h-4 w-4 mr-2" />
-              Overview
-            </Button>
-            <Button variant="ghost" className="w-full justify-start" onClick={() => navigate('/login')}>
-              <FileText className="h-4 w-4 mr-2" />
-              Documents (Login)
-            </Button>
-            <Button variant="ghost" className="w-full justify-start" onClick={() => navigate('/login')}>
-              <Users className="h-4 w-4 mr-2" />
-              Projects (Login)
-            </Button>
-            <Button variant="ghost" className="w-full justify-start" onClick={() => navigate('/login')}>
-              <Search className="h-4 w-4 mr-2" />
-              Search (Login)
-            </Button>
+
+
+      {/* Solution Overview */}
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+        <div className="bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 relative overflow-hidden">
+          <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+          <div className="text-center mb-12 sm:mb-16 relative z-10 animate-fade-in-up">
+            <Badge className="mb-4 sm:mb-6 bg-primary/10 text-primary border-primary/20 w-fit mx-auto">
+              <Zap className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+              <span className="text-xs sm:text-sm">Intelligent Solution</span>
+            </Badge>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">
+              The KMRL Knowledge Lens Solution
+            </h2>
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              An AI-powered platform that automatically delivers rapid, trustworthy, and relevant summaries 
+              of critical information to every stakeholder.
+            </p>
           </div>
-        </nav>
 
-        {/* Main Content */}
-        <main className="flex-1 p-6">
-          {/* Hero/Intro with subtle animations */}
-          <section className="relative overflow-hidden rounded-xl bg-gradient-to-r from-indigo-50 to-blue-50 border animate-fade-in">
-            <div className="px-6 py-10 md:px-10">
-              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground mb-4">
-                The KMRL Knowledge Lens Platform
-              </h2>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-3xl">
-                An integrated, AI-powered system that ingests, understands, and disseminates information across KMRL—transforming documents into actionable knowledge.
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 relative z-10">
+            {[
+              {
+                icon: FileText,
+                title: "Unified Ingestion",
+                description: "Automatically collect documents from all sources into a central repository",
+                features: ["Email monitoring", "SharePoint sync", "OCR for scans", "WhatsApp integration"],
+                color: "blue"
+              },
+              {
+                icon: Brain,
+                title: "AI Intelligence",
+                description: "Process documents to extract meaning, classify, and summarize content",
+                features: ["Auto-classification", "Entity extraction", "Multi-level summaries", "Semantic search"],
+                color: "purple"
+              },
+              {
+                icon: Zap,
+                title: "Smart Delivery",
+                description: "Push relevant information to the right people through personalized dashboards",
+                features: ["Role-based views", "Proactive alerts", "Mobile access", "Real-time updates"],
+                color: "green"
+              },
+              {
+                icon: Search,
+                title: "Full Traceability",
+                description: "Maintain clear links to source documents with feedback mechanisms",
+                features: ["Source verification", "Audit trails", "Quality feedback", "Continuous learning"],
+                color: "orange"
+              }
+            ].map((solution, index) => (
+              <Card key={index} className="border-primary/20 bg-primary/5 hover:bg-primary/10 transition-all duration-300 hover:scale-105 hover:shadow-xl group">
+                <CardContent className="p-4 sm:p-6">
+                  <div className="text-center space-y-3 sm:space-y-4">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300 group-hover:scale-110">
+                      <solution.icon className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-sm sm:text-base mb-2 text-foreground group-hover:text-primary transition-colors duration-300">{solution.title}</h3>
+                      <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4 leading-relaxed">{solution.description}</p>
+                    </div>
+                    <ul className="space-y-1.5 sm:space-y-2">
+                      {solution.features.map((feature, idx) => (
+                        <li key={idx} className="text-xs text-muted-foreground flex items-center justify-start">
+                          <div className="w-1.5 h-1.5 bg-primary rounded-full mr-2 flex-shrink-0" />
+                          <span className="text-left">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits */}
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+        <div className="text-center mb-12 sm:mb-16 animate-fade-in-up">
+          <Badge className="mb-4 sm:mb-6 bg-success/10 text-success border-success/20 w-fit mx-auto">
+            <Target className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+            <span className="text-xs sm:text-sm">Immediate Impact</span>
+          </Badge>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-success to-success/70 bg-clip-text text-transparent">
+            Transform Your Operations
+          </h2>
+          <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto">
+            See immediate improvements across all departments
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+          {[
+            "Instant decision-making with pre-digested summaries",
+            "Cross-functional awareness eliminates departmental silos", 
+            "Automated compliance monitoring reduces legal risks",
+            "Permanent institutional knowledge preservation",
+            "Eliminate duplicated summarization efforts",
+            "Scale operations safely and efficiently"
+          ].map((benefit, index) => (
+            <div key={index} className="flex items-start space-x-3 sm:space-x-4 p-4 sm:p-6 rounded-xl bg-gradient-to-br from-card to-card-hover border border-border/50 hover:border-success/30 transition-all duration-300 hover:scale-105 animate-fade-in-up group shadow-sm hover:shadow-lg" style={{ animationDelay: `${index * 0.1}s` }}>
+              <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-success to-success/70 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform mt-0.5">
+                <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+              </div>
+              <p className="text-sm sm:text-base text-muted-foreground group-hover:text-foreground transition-colors leading-relaxed">{benefit}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Problem Statement */}
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+        <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/20 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 border border-amber-200/50 dark:border-amber-800/50">
+          <div className="text-center mb-12 sm:mb-16 animate-fade-in-up">
+            <Badge className="mb-4 sm:mb-6 bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300 dark:border-amber-700 w-fit mx-auto">
+              <Clock className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+              <span className="text-xs sm:text-sm">Current Challenges</span>
+            </Badge>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+              The Silent Productivity Tax
+            </h2>
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              KMRL processes thousands of critical documents daily, creating information overload that slows decisions and increases risks.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {[
+              {
+                icon: Clock,
+                title: "Information Latency",
+                description: "Decision-making is slow as managers waste time finding actionable information in lengthy documents."
+              },
+              {
+                icon: Users,
+                title: "Siloed Awareness", 
+                description: "Departments are disconnected, leading to inefficient and sometimes contradictory actions."
+              },
+              {
+                icon: Shield,
+                title: "Compliance Exposure",
+                description: "Critical regulatory updates are easily missed, creating significant legal and safety risks."
+              },
+              {
+                icon: Brain,
+                title: "Knowledge Attrition",
+                description: "Valuable expertise is lost when employees leave because it's locked in unsearchable files."
+              },
+              {
+                icon: FileText,
+                title: "Duplicated Effort",
+                description: "Teams waste time independently creating summaries of the same documents."
+              },
+              {
+                icon: Target,
+                title: "Growing Complexity",
+                description: "KMRL's expansion will exponentially increase the data burden without proper systems."
+              }
+            ].map((problem, index) => (
+              <Card key={index} className="border-amber-200/50 bg-white/50 hover:bg-amber-50/80 dark:border-amber-700/50 dark:bg-amber-950/10 dark:hover:bg-amber-900/20 transition-all duration-300 hover:scale-105 hover:shadow-lg group backdrop-blur-sm">
+                <CardContent className="p-4 sm:p-6">
+                  <div className="flex items-start space-x-3 sm:space-x-4">
+                    <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-amber-100 dark:bg-amber-900/30 rounded-xl flex items-center justify-center group-hover:bg-amber-200 dark:group-hover:bg-amber-800/40 transition-colors duration-300">
+                      <problem.icon className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-sm sm:text-base mb-2 text-foreground group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors duration-300">{problem.title}</h3>
+                      <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{problem.description}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 text-center">
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-primary-hover/20 to-primary/20 rounded-2xl sm:rounded-3xl blur-3xl"></div>
+          <Card className="max-w-4xl mx-auto bg-gradient-to-br from-primary to-primary-hover text-primary-foreground relative overflow-hidden shadow-2xl border-0 animate-scale-in">
+            <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+            <CardContent className="p-6 sm:p-8 lg:p-12 relative z-10">
+              <Brain className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-6 animate-float" />
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">Ready to Transform Your Document Workflow?</h2>
+              <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto leading-relaxed">
+                Experience the power of AI-driven document intelligence and eliminate information overload today.
               </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Button size="lg" onClick={() => navigate('/login')}>
-                  <LogIn className="mr-2 h-5 w-5" /> Get Started
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                <Button 
+                  size="lg" 
+                  variant="secondary" 
+                  onClick={() => navigate('/login')}
+                  className="text-sm sm:text-lg px-6 sm:px-8 py-3 sm:py-4 bg-white text-primary hover:bg-white/90 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 group w-full sm:w-auto"
+                >
+                  Access Your Dashboard
+                  <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
                 </Button>
-                <Button size="lg" variant="outline" onClick={() => navigate('/signup')}>
-                  <UserPlus className="mr-2 h-5 w-5" /> Create Account
+                <Button size="lg" variant="outline" className="text-sm sm:text-lg px-6 sm:px-8 py-3 sm:py-4 border-2 border-white/30 text-white hover:bg-white/10 transition-all duration-300 hover:scale-105 w-full sm:w-auto">
+                  <Play className="mr-2 w-4 h-4 sm:w-5 sm:h-5" />
+                  Schedule Demo
                 </Button>
               </div>
+              
+              {/* Trust indicators */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-white/20">
+                <div className="text-center">
+                  <div className="text-xl sm:text-2xl font-bold">99.9%</div>
+                  <div className="text-xs sm:text-sm opacity-80">Uptime</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-xl sm:text-2xl font-bold">ISO 27001</div>
+                  <div className="text-xs sm:text-sm opacity-80">Certified</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-xl sm:text-2xl font-bold">GDPR</div>
+                  <div className="text-xs sm:text-sm opacity-80">Compliant</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 border-t border-border/50 bg-gradient-to-r from-muted/30 to-muted/10 mt-12 sm:mt-20">
+        <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-primary to-primary-hover rounded-lg flex items-center justify-center shadow-md">
+              <Brain className="w-3 h-3 sm:w-5 sm:h-5 text-primary-foreground" />
             </div>
-          </section>
-
-          {/* Four Layers */}
-          <section className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6 animate-slide-up">
-            <Card className="border-l-4 border-l-primary">
-              <CardHeader>
-                <CardTitle>1) Ingestion & Unification Layer</CardTitle>
-                <CardDescription>Consolidate information into a single, structured repository.</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm leading-relaxed">
-                <p><strong>Unified Document Lake</strong>: A central cloud-based repository acting as the single source of truth.</p>
-                <p><strong>Automated Ingestion</strong>: Connectors for email, SharePoint, cloud repositories.</p>
-                <p><strong>OCR (Multilingual)</strong>: Digitize scanned PDFs/images (incl. WhatsApp) into machine-readable text.</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-l-4 border-l-primary">
-              <CardHeader>
-                <CardTitle>2) The Intelligence Engine (Core AI)</CardTitle>
-                <CardDescription>Extract meaning and context from every document.</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm leading-relaxed">
-                <p><strong>Classification</strong>: Auto tag by type and priority.</p>
-                <p><strong>Named Entity Recognition</strong>: Extract dates, vendors, parts, codes, locations.</p>
-                <p><strong>Summarization</strong>: Headline, abstractive summary, and action items.</p>
-                <p><strong>Semantic Search</strong>: Vector embeddings enable natural language queries.</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-l-4 border-l-primary">
-              <CardHeader>
-                <CardTitle>3) Dissemination & Presentation Layer</CardTitle>
-                <CardDescription>Deliver the right information to the right person.</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm leading-relaxed">
-                <p><strong>Role-Based Dashboards</strong>: Tailored views for Engineers, Finance, Executives.</p>
-                <p><strong>Proactive Alerts</strong>: Email/SMS/app notifications for high-priority items.</p>
-                <p><strong>Conversational Assistant</strong>: Chatbot to query the knowledge base.</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-l-4 border-l-primary">
-              <CardHeader>
-                <CardTitle>4) Traceability & Feedback Layer</CardTitle>
-                <CardDescription>Ensure trust, accountability, and continuous improvement.</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm leading-relaxed">
-                <p><strong>One-Click Traceability</strong>: Link every insight to the exact source.</p>
-                <p><strong>Feedback Loop</strong>: User ratings improve AI quality over time.</p>
-              </CardContent>
-            </Card>
-          </section>
-
-          {/* Benefits */}
-          <section className="mt-10 animate-fade-in">
-            <h3 className="text-2xl font-bold text-foreground mb-4">How KMRL Benefits</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Faster Decisions</CardTitle>
-                </CardHeader>
-                <CardContent className="text-sm text-muted-foreground">
-                  Instant, pre-digested summaries and action items reduce latency.
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Cross-Functional Awareness</CardTitle>
-                </CardHeader>
-                <CardContent className="text-sm text-muted-foreground">
-                  Engineering, Procurement, Safety and Finance stay in sync automatically.
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Compliance & Audit Ready</CardTitle>
-                </CardHeader>
-                <CardContent className="text-sm text-muted-foreground">
-                  High-priority regulatory docs surfaced with full traceability.
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Institutional Memory</CardTitle>
-                </CardHeader>
-                <CardContent className="text-sm text-muted-foreground">
-                  A permanent, searchable digital brain retains knowledge.
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Eliminate Duplication</CardTitle>
-                </CardHeader>
-                <CardContent className="text-sm text-muted-foreground">
-                  One high-quality summary shared across teams reduces rework.
-                </CardContent>
-              </Card>
-            </div>
-          </section>
-
-          {/* CTA Cards */}
-          <section className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 animate-slide-up">
-            <Card className="p-6 text-center hover:shadow-md transition-shadow">
-              <div className="mx-auto w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <Database className="h-6 w-6 text-blue-600" />
-              </div>
-              <CardTitle className="mb-2">Central Knowledge Hub</CardTitle>
-              <CardDescription>All documents. One platform.</CardDescription>
-              <div className="mt-4">
-                <Button onClick={() => navigate('/login')}>Explore</Button>
-              </div>
-            </Card>
-            <Card className="p-6 text-center hover:shadow-md transition-shadow">
-              <div className="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                <Search className="h-6 w-6 text-green-600" />
-              </div>
-              <CardTitle className="mb-2">AI-Powered Search</CardTitle>
-              <CardDescription>Find insights, not just files.</CardDescription>
-              <div className="mt-4">
-                <Button variant="outline" onClick={() => navigate('/login')}>Try Search</Button>
-              </div>
-            </Card>
-            <Card className="p-6 text-center hover:shadow-md transition-shadow">
-              <div className="mx-auto w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                <BarChart3 className="h-6 w-6 text-purple-600" />
-              </div>
-              <CardTitle className="mb-2">Role-Based Dashboards</CardTitle>
-              <CardDescription>Personalized, actionable views.</CardDescription>
-              <div className="mt-4">
-                <Button variant="ghost" onClick={() => navigate('/login')}>View Samples</Button>
-              </div>
-            </Card>
-          </section>
-
-          {/* Demo Credentials */}
-          <section className="mt-16 bg-white rounded-lg shadow-lg p-8 animate-fade-in">
-            <h3 className="text-2xl font-bold text-center mb-6">Try the Demo</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="text-center p-4 bg-red-50 rounded-lg">
-                <h4 className="font-semibold text-red-900 mb-2">Administrator</h4>
-                <p className="text-sm text-red-700">ADM001</p>
-                <p className="text-sm text-red-700">admin123</p>
-              </div>
-              <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <h4 className="font-semibold text-blue-900 mb-2">Station Controller</h4>
-                <p className="text-sm text-blue-700">STF001</p>
-                <p className="text-sm text-blue-700">staff123</p>
-              </div>
-              <div className="text-center p-4 bg-green-50 rounded-lg">
-                <h4 className="font-semibold text-green-900 mb-2">Procurement Officer</h4>
-                <p className="text-sm text-green-700">STF002</p>
-                <p className="text-sm text-green-700">staff123</p>
-              </div>
-              <div className="text-center p-4 bg-purple-50 rounded-lg">
-                <h4 className="font-semibold text-purple-900 mb-2">Rolling Stock Engineer</h4>
-                <p className="text-sm text-purple-700">STF003</p>
-                <p className="text-sm text-purple-700">staff123</p>
-              </div>
-            </div>
-          </section>
-        </main>
-      </div>
+            <span className="font-semibold text-base sm:text-lg bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+              KMRL Knowledge Lens
+            </span>
+          </div>
+          <div className="text-center md:text-right">
+            <p className="text-xs sm:text-sm text-muted-foreground">
+              Intelligent Document Processing for Modern Organizations
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Powered by Advanced AI • Built for Scale • Secured by Design
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

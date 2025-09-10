@@ -69,7 +69,13 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fadeIn 0.5s ease-out",
+        "fade-in-up": "fadeInUp 0.6s ease-out",
         "slide-up": "slideUp 0.3s ease-out",
+        "slide-in-left": "slideInLeft 0.8s ease-out",
+        "slide-in-right": "slideInRight 0.8s ease-out",
+        "scale-in": "scaleIn 0.5s ease-out",
+        "pulse-glow": "pulseGlow 2s ease-in-out infinite",
+        "float": "float 3s ease-in-out infinite",
       },
       keyframes: {
         "accordion-down": {
@@ -92,9 +98,33 @@ export default {
           from: { opacity: "0", transform: "translateY(10px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
+        fadeInUp: {
+          from: { opacity: "0", transform: "translateY(30px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
         slideUp: {
           from: { transform: "translateY(100%)" },
           to: { transform: "translateY(0)" },
+        },
+        slideInLeft: {
+          from: { opacity: "0", transform: "translateX(-50px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
+        slideInRight: {
+          from: { opacity: "0", transform: "translateX(50px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
+        scaleIn: {
+          from: { opacity: "0", transform: "scale(0.9)" },
+          to: { opacity: "1", transform: "scale(1)" },
+        },
+        pulseGlow: {
+          "0%, 100%": { boxShadow: "0 0 5px hsl(var(--primary))" },
+          "50%": { boxShadow: "0 0 20px hsl(var(--primary)), 0 0 30px hsl(var(--primary))" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-10px)" },
         },
       },
     },
