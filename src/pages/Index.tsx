@@ -113,47 +113,13 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Video Demo Section */}
+          {/* Laptop Demo */}
           <div className={`mt-8 lg:mt-0 transition-all duration-1000 delay-500 ${isVisible ? 'animate-slide-in-right' : 'opacity-0'}`}>
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary-hover/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-              <Card className="relative overflow-hidden rounded-2xl shadow-2xl border-2 border-primary/10 hover:border-primary/20 transition-all duration-300 hover:scale-[1.02]">
-                <CardContent className="p-0">
-                  <div className="aspect-video bg-gradient-to-br from-accent/20 to-primary/5 flex items-center justify-center relative overflow-hidden">
-                    {/* Placeholder for video */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary-hover/5"></div>
-                    <div className="text-center space-y-3 sm:space-y-4 z-10 px-4">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-primary/20 rounded-full flex items-center justify-center border-2 border-primary/30 hover:bg-primary/30 transition-all duration-300 cursor-pointer group animate-pulse-glow">
-                        <Play className="w-6 h-6 sm:w-8 sm:h-8 text-primary ml-1 group-hover:scale-110 transition-transform" />
-                      </div>
-                      <div className="space-y-2">
-                        <h3 className="text-lg sm:text-xl font-semibold">See Knowledge Lens in Action</h3>
-                        <p className="text-muted-foreground text-xs sm:text-sm max-w-xs mx-auto leading-relaxed">
-                          Watch how our AI transforms complex documents into actionable insights in seconds
-                        </p>
-                      </div>
-                    </div>
-                    
-                    {/* Floating elements - hidden on mobile for cleaner look */}
-                    <div className="absolute top-3 left-3 sm:top-4 sm:left-4 animate-float hidden sm:block">
-                      <div className="bg-card/80 backdrop-blur-sm rounded-lg p-1.5 sm:p-2 shadow-lg border">
-                        <FileText className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                      </div>
-                    </div>
-                    <div className="absolute top-6 right-6 sm:top-8 sm:right-8 animate-float hidden sm:block" style={{ animationDelay: '1s' }}>
-                      <div className="bg-card/80 backdrop-blur-sm rounded-lg p-1.5 sm:p-2 shadow-lg border">
-                        <Brain className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                      </div>
-                    </div>
-                    <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8 animate-float hidden sm:block" style={{ animationDelay: '2s' }}>
-                      <div className="bg-card/80 backdrop-blur-sm rounded-lg p-1.5 sm:p-2 shadow-lg border">
-                        <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-success" />
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+            <img 
+              src="/laptop.png" 
+              alt="KMRL Knowledge Lens Dashboard" 
+              className="w-full h-auto object-contain"
+            />
           </div>
         </div>
       </section>
