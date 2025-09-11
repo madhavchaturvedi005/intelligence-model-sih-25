@@ -23,7 +23,7 @@ export interface DocumentAnalysis {
 }
 
 export class LangChainService {
-  private readonly API_KEY = 'AIzaSyCgELAt2c5ud4f3AhsXGZ84sb6eQ4MY-uQ';
+  private readonly API_KEY = '';
   private documents: Array<{ id: string; content: string; metadata: any }> = [];
 
   constructor() {
