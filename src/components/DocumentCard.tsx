@@ -29,8 +29,7 @@ interface DocumentCardProps {
 
 export const DocumentCard = ({ document, expanded = false }: DocumentCardProps) => {
   const navigate = useNavigate();
-  const [isExpanded, setIsExpanded] = useState(expanded);
-  const [summaryLevel, setSummaryLevel] = useState<"headline" | "keyPoints" | "detailed">("headline");
+
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -43,25 +42,7 @@ export const DocumentCard = ({ document, expanded = false }: DocumentCardProps) 
     }
   };
 
-  const renderSummary = () => {
-    switch (summaryLevel) {
-      case "headline":
-        return <p className="text-foreground">{document.summary.headline}</p>;
-      case "keyPoints":
-        return (
-          <ul className="space-y-1 text-foreground">
-            {document.summary.keyPoints.map((point, index) => (
-              <li key={index} className="flex items-start">
-                <span className="text-primary mr-2">•</span>
-                {point}
-              </li>
-            ))}
-          </ul>
-        );
-      case "detailed":
-        return <p className="text-foreground leading-relaxed">{document.summary.detailed}</p>;
-    }
-  };
+
 
   return (
     <Card
@@ -107,87 +88,19 @@ export const DocumentCard = ({ document, expanded = false }: DocumentCardProps) 
           <div className="flex items-center gap-2 mb-2">
             <div className="h-2 w-2 rounded-full bg-primary animate-pulse"></div>
             <span className="text-xs font-medium text-primary">AI Summary</span>
-            <div className="flex gap-1">
-              <Button
-                variant={summaryLevel === "headline" ? "default" : "outline"}
-                size="sm"
-                className="h-6 px-2 text-xs"
-                onClick={() => setSummaryLevel("headline")}
-              >
-                L1
-              </Button>
-              <Button
-                variant={summaryLevel === "keyPoints" ? "default" : "outline"}
-                size="sm"
-                className="h-6 px-2 text-xs"
-                onClick={() => setSummaryLevel("keyPoints")}
-              >
-                L2
-              </Button>
-              <Button
-                variant={summaryLevel === "detailed" ? "default" : "outline"}
-                size="sm"
-                className="h-6 px-2 text-xs"
-                onClick={() => setSummaryLevel("detailed")}
-              >
-                L3
-              </Button>
-            </div>
           </div>
           <div className="bg-muted p-3 rounded-md text-sm">
-            {renderSummary()}
+            <p className="text-foreground">{document.summary.headline}</p>
           </div>
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-center">
           <Button variant="outline" size="sm" className="text-xs">
             <ExternalLink className="h-3 w-3 mr-1" />
-            View Source: {document.source}
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="text-xs"
-          >
-            {isExpanded ? (
-              <>
-                <ChevronUp className="h-3 w-3 mr-1" />
-                Less
-              </>
-            ) : (
-              <>
-                <ChevronDown className="h-3 w-3 mr-1" />
-                More
-              </>
-            )}
+            View Details
           </Button>
         </div>
-
-        {/* Expanded Content */}
-        {isExpanded && (
-          <div className="mt-4 pt-4 border-t animate-slide-up">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <div>
-                <h4 className="font-medium text-foreground mb-2">Document Metadata</h4>
-                <div className="space-y-1 text-muted-foreground">
-                  <p>File: {document.source}</p>
-                  <p>Department: {document.department}</p>
-                  <p>Processed: {new Date(document.date).toLocaleString()}</p>
-                </div>
-              </div>
-              <div>
-                <h4 className="font-medium text-foreground mb-2">AI Analysis</h4>
-                <div className="space-y-1 text-muted-foreground">
-                  <p>Confidence: 94%</p>
-                  <p>Language: English</p>
-                  <p>Entities: 12 identified</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </Card>
   );

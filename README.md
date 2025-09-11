@@ -85,6 +85,20 @@ Use these credentials to explore different user perspectives:
 | Procurement Officer | STF002 | staff123 |
 | Rolling Stock Engineer | STF003 | staff123 |
 
+### Sample Documents
+
+The application includes pre-loaded sample documents to demonstrate AI analysis capabilities:
+
+- **Metro Line 3 Environmental Impact Assessment** (High Priority)
+  - Environmental Planning Department
+  - Comprehensive assessment with air quality, noise, and biodiversity analysis
+  - AI-generated summary with 5 key points and detailed insights
+
+- **Smart Ticketing System Technical Specifications** (Medium Priority)
+  - IT Operations Department  
+  - Technical documentation for contactless payment system
+  - Features NFC/QR code support and mobile app integration
+
 ## Project Structure
 
 ```

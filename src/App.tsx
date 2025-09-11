@@ -14,6 +14,7 @@ import Profile from "./pages/Profile";
 import ProjectDetail from "./pages/ProjectDetail";
 import ForgotPassword from "./pages/ForgotPassword";
 import DocumentDetail from "./pages/DocumentDetail";
+import Connections from "./pages/Connections";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -67,6 +68,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <DocumentDetail />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/connections" 
+              element={
+                <ProtectedRoute>
+                  <Connections />
                 </ProtectedRoute>
               } 
             />

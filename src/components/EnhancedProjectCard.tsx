@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
+
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Calendar, Users, TrendingUp, Clock, CheckCircle, AlertCircle, FileText, MessageSquare, ArrowRight } from "lucide-react";
@@ -110,16 +110,10 @@ export const EnhancedProjectCard = ({ project }: EnhancedProjectCardProps) => {
             </div>
           </div>
         </div>
-        <div className="text-right">
-          <div className="text-2xl font-bold text-foreground mb-1">{project.completion}%</div>
-          <div className="text-xs text-muted-foreground">Complete</div>
-        </div>
+
       </div>
 
-      {/* Progress Bar */}
-      <div className="mb-4">
-        <Progress value={project.completion} className="h-2" />
-      </div>
+
 
       {/* Team Avatars and Assigned Users */}
       <div className="flex items-center justify-between mb-4">
@@ -197,9 +191,7 @@ export const EnhancedProjectCard = ({ project }: EnhancedProjectCardProps) => {
             Documents
           </Button>
         </div>
-        <div className="text-xs text-muted-foreground">
-          {project.completion < 100 ? `${100 - project.completion}% remaining` : 'Completed'}
-        </div>
+
       </div>
     </Card>
   );
