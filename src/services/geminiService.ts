@@ -16,7 +16,7 @@ export interface DocumentAnalysis {
 export class GeminiService {
   private genAI: any = null;
   private model: any = null;
-  private readonly API_KEY = 'AIzaSyCgELAt2c5ud4f3AhsXGZ84sb6eQ4MY-uQ';
+  private readonly API_KEY = '';
   private initialized = false;
 
   private async initializeAI(): Promise<boolean> {
