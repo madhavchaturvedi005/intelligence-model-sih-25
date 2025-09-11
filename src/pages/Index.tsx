@@ -42,8 +42,8 @@ const Index = () => {
       <header className={`container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 transition-all duration-1000 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
         <nav className="flex items-center justify-between">
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-primary to-primary-hover rounded-xl flex items-center justify-center shadow-lg animate-pulse-glow">
-              <Brain className="w-4 h-4 sm:w-6 sm:h-6 text-primary-foreground animate-float" />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-lg">
+              <img src="/kmrl-logo.svg" alt="KMRL Logo" className="w-full h-full object-contain" />
             </div>
             <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
               <span className="hidden sm:inline">KMRL Knowledge Lens</span>
@@ -343,7 +343,9 @@ const Index = () => {
           <Card className="max-w-4xl mx-auto bg-gradient-to-br from-primary to-primary-hover text-primary-foreground relative overflow-hidden shadow-2xl border-0 animate-scale-in">
             <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
             <CardContent className="p-6 sm:p-8 lg:p-12 relative z-10">
-              <Brain className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-6 animate-float" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-6">
+                <img src="/kmrl-logo.svg" alt="KMRL Logo" className="w-full h-full object-contain filter brightness-0 invert" />
+              </div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">Ready to Transform Your Document Workflow?</h2>
               <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto leading-relaxed">
                 Experience the power of AI-driven document intelligence and eliminate information overload today.
@@ -388,8 +390,8 @@ const Index = () => {
       <footer className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 border-t border-border/50 bg-gradient-to-r from-muted/30 to-muted/10 mt-12 sm:mt-20">
         <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-primary to-primary-hover rounded-lg flex items-center justify-center shadow-md">
-              <Brain className="w-3 h-3 sm:w-5 sm:h-5 text-primary-foreground" />
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shadow-md">
+              <img src="/kmrl-logo.svg" alt="KMRL Logo" className="w-full h-full object-contain" />
             </div>
             <span className="font-semibold text-base sm:text-lg bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
               KMRL Knowledge Lens

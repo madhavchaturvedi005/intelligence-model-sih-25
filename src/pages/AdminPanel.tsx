@@ -95,8 +95,8 @@ const AdminPanel: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center mr-3">
-                <span className="text-sm font-bold text-white">KMRL</span>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center mr-3">
+                <img src="/kmrl-logo.svg" alt="KMRL Logo" className="w-full h-full object-contain" />
               </div>
               <h1 className="text-xl font-semibold text-gray-900">Admin Panel</h1>
             </div>

@@ -411,8 +411,8 @@ export const Dashboard = () => {
         <div className="flex h-16 items-center justify-between px-6">
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded bg-primary flex items-center justify-center">
-                <span className="text-sm font-bold text-white">KMRL</span>
+              <div className="h-8 w-8 rounded flex items-center justify-center">
+                <img src="/kmrl-logo.svg" alt="KMRL Logo" className="w-full h-full object-contain" />
               </div>
               <h1 className="text-xl font-bold text-foreground">Knowledge Lens</h1>
             </div>

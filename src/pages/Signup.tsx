@@ -95,8 +95,8 @@ const Signup: React.FC = () => {
       <div className="w-full max-w-2xl">
         {/* KMRL Logo and Title */}
         <div className="text-center mb-8">
-          <div className="mx-auto w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-4">
-            <span className="text-2xl font-bold text-white">KMRL</span>
+          <div className="mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4">
+            <img src="/kmrl-logo.svg" alt="KMRL Logo" className="w-full h-full object-contain" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Knowledge Lens</h1>
           <p className="text-gray-600">Create your account</p>
