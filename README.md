@@ -58,7 +58,7 @@ The platform supports multiple user roles with specialized dashboards:
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/madhavchaturvedi005/intelligence-model-sih-25.git
 cd kmrl-knowledge-lens
 ```
 
